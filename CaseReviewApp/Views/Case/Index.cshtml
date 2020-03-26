@@ -1,0 +1,53 @@
+﻿@model IEnumerable<CaseReviewApp.Models.Case>
+
+@{
+    ViewBag.Title = "Cases";
+}
+
+<h2>Cases</h2>
+<div class="row">
+    <div class="col-md-6">
+        <div id="case-table">
+            @Html.Partial("_CaseDetails", Model)
+        </div>
+
+        <br />
+        <a href="javascript::return false;" class="btn btn-primary" data-toggle="modal" data-target="#case-modal">Add New</a>
+
+        <div class="modal fade" id="case-modal" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a href="#" class="close" data-dismiss="modal">&times;</a>
+                        <h2 class="modal-title">Create New Case</h2>
+                    </div>
+                    <div class="modal-body">
+                        <form id="case-form">
+                            <div class="form-group">
+                                <label for="CaseTitle">Case Title</label>
+                                <input type="text" required class="form-control" name="CaseTitle" placeholder="Write a title">
+                            </div>
+                            <div class="form-group">
+                                <label for="ShortDescription">Case Description</label>
+                                <input type="text" required class="form-control" name="ShortDescription" placeholder="Give a short Description" />
+                            </div>
+                            <div class="form-group">
+                                <label for="CreatedBy">Created By</label>
+                                <input type="text" required class="form-control" name="CreatedBy" placeholder="Name of the case creator">
+                            </div>
+                            <div class="form-group">
+                                <label for="CreatedOn">Created On</label>
+                                <input type="text" class="form-control" name="CreatedOn" placeholder="Creation time" value="@DateTime.Now">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript::return false;" id="btnCaseSubmit" class="btn btn-success pull-left">Submit</a>
+                        <a href="#" data-dismiss="modal" class="btn btn-primary pull-left">Exit</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

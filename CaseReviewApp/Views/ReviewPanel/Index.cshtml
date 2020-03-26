@@ -1,0 +1,125 @@
+﻿@model IEnumerable<CaseReviewApp.Models.ViewModels.ReviewPanelViewModel>
+@{
+    ViewBag.Title = "Review Panels";
+}
+
+<h2>Review Panels</h2>
+<div class="row">
+    <div class="col-md-8">
+        <div id="review-table">
+            @Html.Partial("_ReviewDetails", Model)
+        </div>
+        <input type="hidden" id="hiddenReviewId" />
+        <br />
+        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#panel-modal">Add New</a>
+
+        <div class="modal fade" id="panel-modal" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a href="#" class="close" data-dismiss="modal">&times;</a>
+                        <h2 class="modal-title">Create Case Review</h2>
+                    </div>
+                    <div class="modal-body">
+                        @if (ViewBag.Cases.Count == 0)
+                        {
+                            <h4>No assignable cases available</h4>
+                        }
+                        else
+                        {
+                            <form id="panel-form">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h4>Case Title</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4>Panel Members</h4>
+                                    </div>
+                                </div>
+                                @foreach (var caseItem in ViewBag.Cases)
+                                {
+                                    <input type="hidden" class="hiddenCaseId" value="@caseItem.CaseID" />
+                                    <div class="row" id="check_@caseItem.CaseID">
+                                        <div class="col-md-6">
+                                            <div class="checkbox">
+                                                <label><input type="checkbox" id="case_@caseItem.CaseID" />@caseItem.CaseTitle</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 member">
+                                            @foreach (var member in ViewBag.Members)
+                                            {
+                                                <div class="checkbox">
+                                                    <label><input type="checkbox" id="@(String.Format("case_{0}_{1}", caseItem.CaseID, member.MemberID))" />@member.Name</label>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    <hr />
+                                }
+                                <span class="case-list-msg error"></span>
+
+                                <div class="form-group">
+                                    <label for="ReviewDetails">Review Details</label>
+                                    <input type="text" required class="form-control" name="ReviewDetails" placeholder="Some details about the review">
+                                </div>
+                                <div class="form-group">
+                                    <label for="CreatedBy">Created By</label>
+                                    <input type="text" required class="form-control" name="CreatedBy" placeholder="Name of the creator">
+                                </div>
+                                <div class="form-group">
+                                    <label for="CreatedOn">Created On</label>
+                                    <input type="text" required class="form-control" name="CreatedOn" value="@DateTime.Now" placeholder="Creation time">
+                                </div>
+                            </form>
+                        }
+
+                    </div>
+                    <div class="modal-footer">
+                        @if (ViewBag.Cases.Count > 0)
+                        {
+                            <a href="#" id="btnPanelSubmit" class="btn btn-success pull-left">Save</a>
+                        }
+                        <a href="#" data-dismiss="modal" class="btn btn-primary pull-left">Exit</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*Delete Modal*@
+        <div class="modal fade" id="del-modal" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a href="#" class="close" data-dismiss="modal">&times;</a>
+                        <h3 class="modal-title">Delete case review</h3>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Are you sure?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                        <a href="javascript::return false;" class="btn btn-success" onclick="DeleteReview()">Confirm</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="panel-modal-edit" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a href="#" class="close" data-dismiss="modal">&times;</a>
+                        <h2 class="modal-title">Update Case Review</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div id="panel-edit-body"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" id="btnPanelUpdate" class="btn btn-success pull-left">Update</a>
+                        <a href="#" data-dismiss="modal" class="btn btn-primary pull-left">Exit</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

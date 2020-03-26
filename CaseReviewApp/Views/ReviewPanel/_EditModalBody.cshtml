@@ -1,0 +1,44 @@
+﻿@model CaseReviewApp.Models.ReviewPanel
+<form id="panel-form-edit">
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Case Title</h4>
+        </div>
+        <div class="col-md-6">
+            <h4>Panel Members</h4>
+        </div>
+    </div>
+
+    <input type="hidden" class="editHiddenCaseId" value="@Model.CaseID" />
+    <input type="hidden" id="editHiddenReviewId" value="@Model.ReviewID" />
+    <div class="row" id="edit_check_@Model.CaseID">
+        <div class="col-md-6">
+            <div class="checkbox">
+                <label><input type="checkbox" checked disabled id="edit_case_@Model.CaseID" />@Model.Case.CaseTitle</label>
+            </div>
+        </div>
+        <div class="col-md-6 member">
+            @foreach (var member in ViewBag.AllMembers)
+            {
+                <div class="checkbox">
+                    <label><input type="checkbox" @(Model.Members.AsEnumerable().Select(r => r.MemberID).ToList().Contains(member.MemberID) ? "checked" : "") id="@(String.Format("edit_case_{0}_{1}", Model.CaseID, member.MemberID))" />@member.Name</label>
+                </div>
+            }
+        </div>
+    </div>
+
+    <span class="case-list-msg-edit error"></span>
+
+    <div class="form-group">
+        <label for="ReviewDetails">Review Details</label>
+        <input type="text" value="@Model.ReviewDetails" required class="form-control" name="ReviewDetails" placeholder="Some details about the review">
+    </div>
+    <div class="form-group">
+        <label for="CreatedBy">Created By</label>
+        <input type="text" value="@Model.CreatedBy" required class="form-control" name="CreatedBy" placeholder="Name of the creator">
+    </div>
+    <div class="form-group">
+        <label for="CreatedOn">Created On</label>
+        <input type="text" required class="form-control" name="CreatedOn" value="@Model.CreatedOn" placeholder="Creation time">
+    </div>
+</form>

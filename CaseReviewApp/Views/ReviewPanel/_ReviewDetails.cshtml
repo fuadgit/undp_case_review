@@ -1,0 +1,58 @@
+﻿@model IEnumerable<CaseReviewApp.Models.ViewModels.ReviewPanelViewModel>
+@if (!Model.Any())
+{
+    <h3 class="text-warning">No review panel is created yet</h3>
+}
+else
+{
+    <table class="table table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CaseTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReviewDetails)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Members)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CaseTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReviewDetails)
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var member in item.Members)
+                        {
+                            <li>@Html.DisplayFor(modelItem => member.Name)</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedOn)
+                </td>
+                <td><a href="javascript::return false;" class="btn btn-success" onclick="ShowEditModal(@item.ReviewID)"><i class="glyphicon glyphicon-pencil"></i> </a></td>
+                <td><a href="javascript::return false;" class="btn btn-danger" onclick="ShowDelModal(@item.ReviewID)"><i class="glyphicon glyphicon-trash"></i> </a></td>
+            </tr>
+        }
+
+    </table>
+}
